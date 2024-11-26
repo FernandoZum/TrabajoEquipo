@@ -1,0 +1,14 @@
+public class Reserva{
+    private String cliente;
+    private Habitacion habitacion;
+    private String fechaInicio;
+    private String fechaFin;
+
+    public Reserva(String cliente, Habitacion habitacion, String fechaInicio, String fechaFin){
+        this.cliente = cliente;
+        this.habitacion = habitacion;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        habitacion.setEstado(false);
+    }
+}

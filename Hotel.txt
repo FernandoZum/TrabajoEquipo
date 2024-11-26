@@ -1,0 +1,40 @@
+import java.util.ArrayList;
+
+public class Hotel{
+    private String nombre;
+    private ArrayList<Habitacion> habitaciones;
+
+    public Hotel(String nombre){
+        this.nombre = nombre;
+        this.habitaciones = new ArrayList<>();
+    }
+
+    public String getNombre(){
+        return nombre;
+    }
+
+    public void agregarHabitacion(Habitacion habitacion){
+        habitaciones.add(habitacion);
+    }
+
+    public boolean consultarDisponibilidad(int numero){
+        for (Habitacion h : habitaciones){
+            if (h.getNumero() == numero && h.isDisponible()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void mostrarDisponibilidad(){
+        for (Habitacion h : habitaciones){
+            System.out.println("Habitación " + h.getNumero() + ": " + (h.isDisponible() ? "Disponible" : "Ocupada"));
+        }
+    }
+
+    public ArrayList<Habitacion> getHabitaciones(){
+        return habitaciones;
+    }
+
+}
+

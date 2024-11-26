@@ -1,0 +1,10 @@
+public class HabitacionDoble extends Habitacion{
+    public HabitacionDoble(int numero, int capacidad, double precio){
+        super(numero, capacidad, precio);
+    }
+
+    @Override
+    public double calcularPrecio(){
+        return super.getPrecio() * 1.1;
+    }
+}

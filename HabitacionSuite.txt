@@ -1,0 +1,13 @@
+public class HabitacionSuite extends Habitacion{
+    private double tarifaAdicional;
+
+    public HabitacionSuite(int numero, int capacidad, double precio, double tarifaAdicional){
+        super(numero, capacidad, precio);
+        this.tarifaAdicional = tarifaAdicional;
+    }
+
+    @Override
+    public double calcularPrecio(){
+        return super.getPrecio() + tarifaAdicional;
+    }
+}

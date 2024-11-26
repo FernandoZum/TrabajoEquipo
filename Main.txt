@@ -1,0 +1,122 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        Hotel hotel = new Hotel("Hotel Ice");
+
+        System.out.println("Sistema de gestión de reservas del " + hotel.getNombre());
+
+        int opcion;
+        do{
+            System.out.println("\n---- Menú Principal ----");
+            System.out.println("1. Agregar Habitacion");
+            System.out.println("2. Disponibilidad");
+            System.out.println("3. Hacer reserva");
+            System.out.println("4. Muestra las habitaciones");
+            System.out.println("5. Salir");
+            System.out.print("Selecciona una opción: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion){
+                case 1:
+                    agregarHabitacion(hotel, scanner);
+                    break;
+                case 2:
+                    consultarDisponibilidad(hotel, scanner);
+                    break;
+                case 3:
+                    crearReserva(hotel, scanner);
+                    break;
+                case 4:
+                    hotel.mostrarDisponibilidad();
+                    break;
+                case 5:
+                    System.out.println("Adios");
+                    break;
+                default:
+                    System.out.println("Opcion no valida.");
+            }
+        }while(opcion != 5);
+
+        scanner.close();
+    }
+
+    private static void agregarHabitacion(Hotel hotel, Scanner scanner){
+        System.out.println("\n Habitacion Nueva");
+        System.out.print("N° de habitacion: ");
+        int numero = scanner.nextInt();
+        System.out.print("Numero de personas: ");
+        int capacidad = scanner.nextInt();
+        System.out.print("Precio por noche: ");
+        double precio = scanner.nextDouble();
+
+        System.out.println("Tipo habitacion:");
+        System.out.println("1. Estándar");
+        System.out.println("2. Suite");
+        System.out.println("3. Doble");
+        System.out.print("Selecciona tipo habitacion: ");
+        int tipo = scanner.nextInt();
+
+        Habitacion habitacion;
+        switch (tipo){
+            case 1:
+                habitacion = new Habitacion(numero, capacidad, precio);
+                break;
+            case 2:
+                System.out.print("Costo adicional de la suite: ");
+                double tarifaAdicional = scanner.nextDouble();
+                habitacion = new HabitacionSuite(numero, capacidad, precio, tarifaAdicional);
+                break;
+            case 3:
+                habitacion = new HabitacionDoble(numero, capacidad, precio);
+                break;
+            default:
+                System.out.println("No se agrego la habitacion");
+                return;
+        }
+
+        hotel.agregarHabitacion(habitacion);
+        System.out.println("Habitacion agregada");
+    }
+
+    private static void consultarDisponibilidad(Hotel hotel, Scanner scanner){
+        System.out.println("\nDisponibilidad");
+        System.out.print("N° de habitacion:");
+        int numero = scanner.nextInt();
+
+        if (hotel.consultarDisponibilidad(numero)){
+            System.out.println("Habitacion " + numero + " esta disponible.");
+        } else{
+            System.out.println("Habitacion " + numero + " esta ocupada o no existe.");
+        }
+    }
+
+    private static void crearReserva(Hotel hotel, Scanner scanner){
+        System.out.println("\nHacer Reserva");
+        System.out.print("N° de habitacion: ");
+        int numero = scanner.nextInt();
+
+        if (hotel.consultarDisponibilidad(numero)){
+            System.out.print("Nombre del cliente: ");
+            scanner.nextLine(); // Consumir salto de línea
+            String cliente = scanner.nextLine();
+            System.out.print("Fecha de inicio (YYYY-MM-DD): ");
+            String fechaInicio = scanner.nextLine();
+            System.out.print("Fecha de fin (YYYY-MM-DD): ");
+            String fechaFin = scanner.nextLine();
+
+            for (Habitacion h : hotel.getHabitaciones()){
+                if (h.getNumero() == numero){
+                    Reserva reserva = new Reserva(cliente, h, fechaInicio, fechaFin);
+                    System.out.println("Reserva hecha" + numero);
+                    return;
+                }
+            }
+        } else{
+            System.out.println("Habitacion " + numero + " no esta disponible.");
+        }
+    }
+}
+
+		
